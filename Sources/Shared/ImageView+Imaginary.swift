@@ -18,6 +18,10 @@ extension ImageView {
       self.fetcher = nil
     }
 
+    if !Configuration.preload && window == nil {
+      return
+    }
+
     Configuration.imageCache.object(url.absoluteString) { [weak self] object in
       guard let weakSelf = self else { return }
 
