@@ -18,10 +18,6 @@ extension ImageView {
       self.fetcher = nil
     }
 
-    if !Configuration.preload && window == nil {
-      return
-    }
-
     Configuration.imageCache.object(url.absoluteString) { [weak self] object in
       guard let weakSelf = self else { return }
 
@@ -39,6 +35,10 @@ extension ImageView {
       }
 
       DispatchQueue.main.async {
+        if !Configuration.preload && weakSelf.window == nil {
+          return
+        }
+
         weakSelf.fetchFromNetwork(url: url, preprocess: preprocess, completion: completion)
       }
     }
